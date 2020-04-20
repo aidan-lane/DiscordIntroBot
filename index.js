@@ -1,6 +1,7 @@
 require('dotenv').config();
 const ytdl = require('ytdl-core-discord');
 const db = require('./db').db
+var timeout = require('./command/time').timeout
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
@@ -9,8 +10,6 @@ const COMMAND_PREFIX = '!';
 
 client.commands = new Discord.Collection();
 const commands = require('./command');
-
-let TIMEOUT = 15 * 1000; // s to ms
 
 Object.keys(commands).map(key => {
   client.commands.set(commands[key].name, commands[key]);
@@ -40,7 +39,7 @@ async function streamAudio(voiceChannel, url) {
   var connection = await voiceChannel.join();
   setInterval(() => {
     connection.disconnect();
-  }, TIMEOUT);
+  }, timeout.time);
   const dispatcher = connection
     .play(await ytdl(url), { type: 'opus' })
     .on("finish", () => {

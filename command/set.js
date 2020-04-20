@@ -1,5 +1,4 @@
 const db = require('../db').db;
-
 module.exports = {
   name: 'set',
   description: 'Sets an intro sound!',
